@@ -16,6 +16,7 @@ const SignupScreen = ({ navigation }) => {
       <Input label='Email' value={email} onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} />
       <Spacer />
       <Input label='Password' value={password} onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
+      {state.errorMessage ? <Text style={styles.errorMessage}>{state.errorMessage}</Text> : null}
       <Spacer><Button title='Sign Up' onPress={() => signup({ email, password })} /></Spacer>
       
     </View>
@@ -33,6 +34,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginBottom: 200
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: 'red',
+    marginLeft: 15,
+    marginTop: -8
   }
 });
 
