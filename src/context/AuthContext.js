@@ -14,20 +14,18 @@ const authReducer = (state, action) => {
   }
 };
 
-const signup = (dispatch) => {
-  return async ({ email, password }) => {
-    try {
-      // make api request to sign up with email and password
-      const response = await trackerApi.post('/signup', { email, password });
-      // if successful -> update state to say that we are authenticated
-      await AsyncStorage.setItem('token', response.data.token);
-      dispatch({ type: 'signup', payload: response.data.token })
-    } catch (err) {
-      // otherwise -> display error
-      dispatch({ type: 'add_error', payload: 'Something went wrong with sign up' });
-      // console.log(err.message);
-    }
-  };
+const signup = (dispatch) => async ({ email, password }) => {
+  try {
+    // make api request to sign up with email and password
+    const response = await trackerApi.post('/signup', { email, password });
+    // if successful -> update state to say that we are authenticated
+    await AsyncStorage.setItem('token', response.data.token);
+    dispatch({ type: 'signup', payload: response.data.token })
+  } catch (err) {
+    // otherwise -> display error
+    dispatch({ type: 'add_error', payload: 'Something went wrong with sign up' });
+    // console.log(err.message);
+  }
 };
 
 const signin = (dispatch) => {
