@@ -1,6 +1,7 @@
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker';
 import { AsyncStorage } from '@react-native-community/async-storage';
+import { navigate } from '../navigationRef';
 
 const authReducer = (state, action) => {
   switch (action.type)
@@ -21,6 +22,9 @@ const signup = (dispatch) => async ({ email, password }) => {
     // if successful -> update state to say that we are authenticated
     await AsyncStorage.setItem('token', response.data.token);
     dispatch({ type: 'signup', payload: response.data.token })
+
+    // navigate to mainFlow
+    navigate('TrackList');
   } catch (err) {
     // otherwise -> display error
     dispatch({ type: 'add_error', payload: 'Something went wrong with sign up' });
