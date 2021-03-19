@@ -24,11 +24,11 @@ const clearErrorMessage = dispatch => () => {
 const signup = (dispatch) => async ({ email, password }) => {
   try {
     // make api request to sign up with email and password
-    const response = await trackerApi.post('/signin', { email, password });
+    const response = await trackerApi.post('/signup', { email, password });
     // if successful -> update state to say that we are authenticated
     // console.log(response.data.token);
     await AsyncStorage.setItem('token', response.data.token);
-    dispatch({ type: 'signup', payload: response.data.token })
+    dispatch({ type: 'signin', payload: response.data.token })
 
     // navigate to mainFlow
     navigate('TrackList');

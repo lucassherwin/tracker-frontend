@@ -3,12 +3,14 @@ import { View, StyleSheet, Text } from 'react-native';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 import { Context } from '../context/AuthContext';
+import { NavigationEvents } from 'react-navigation';
 
 const SigninScreen = () => {
-  const { state, signin } = useContext(Context);
+  const { state, signin, clearErrorMessage } = useContext(Context);
 
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={clearErrorMessage} />
       <AuthForm headerText='Sign In To Tracker' errorMessage={state.errorMessage} onSubmit={signin} buttonTitle='Sign In' />
       <NavLink text="Don't have an account? Sign up instead!" routeName='Signup' />
     </View>
