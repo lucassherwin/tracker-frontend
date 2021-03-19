@@ -9,7 +9,7 @@ const AuthForm = ({ headerText, errorMessage, onSubmit, buttonTitle }) => {
 
   return (
     <>
-      <Spacer><Text h3>{headerText}</Text></Spacer>
+      <Spacer><Text h3 style={styles.header}>{headerText}</Text></Spacer>
       <Input label='Email' value={email} onChangeText={setEmail} autoCapitalize='none' autoCorrect={false} />
       <Spacer />
       <Input label='Password' value={password} onChangeText={setPassword} autoCapitalize='none' autoCorrect={false} secureTextEntry />
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     color: 'red',
     marginLeft: 15,
     marginTop: -8
+  },
+  header: {
+    marginBottom: 45
   }
 });
 
