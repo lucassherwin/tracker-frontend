@@ -12,6 +12,8 @@ const authReducer = (state, action) => {
       return { errorMessage: '', token: action.payload };
     case 'clear_error_message':
       return { ...state, errorMessage: '' };
+    case 'signout':
+      return { token: null, errorMessage: '' };
     default: 
       return state;
   }
@@ -71,11 +73,15 @@ const tryLocalSignin = dispatch => async () => {
 };
 
 
-const signout = (dispatch) => {
-  return () => {
-    // sign user out
-  }
-}
+const signout = (dispatch) => async () => {
+  // clear the token in state
+  await AsyncStorage.removeItem('token');
+  dispatch({ type: 'signout' });
+
+  // navigate back to login page
+  navigate('loginFlow');
+};
+
 
 export const { Provider, Context } = createDataContext(
   authReducer,
