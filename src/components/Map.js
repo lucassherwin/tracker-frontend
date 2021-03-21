@@ -1,17 +1,11 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { StyleSheet } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
+import { Context as LocationContext } from '../context/LocationContext';
 
 const Map = () => {
-  let points = [];
-  for(let i = 0; i < 20; i++)
-  {
-    points.push({
-      latitude: 40.998790 + i * 0.001,
-      longitude: -74.182870 + i * 0.001
-    })
-  }
-
+  const { state } = useContext(LocationContext);
+  console.log(state);
   return (
     <MapView 
       style={styles.map} 
@@ -22,7 +16,6 @@ const Map = () => {
         longitudeDelta: 0.01
       }}
     >
-      <Polyline coordinates={points} />
     </MapView>
   );
 };
