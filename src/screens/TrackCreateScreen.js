@@ -4,7 +4,7 @@ import { Text } from 'react-native-elements';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 import Map from '../components/Map';
-import '../_mockLocation';
+// import '../_mockLocation'; // this causes the map not to load correctly not sure why
 import { Context as LocationContext } from '../context/LocationContext';
 
 const TrackCreateScreen = () => {
@@ -26,7 +26,7 @@ const TrackCreateScreen = () => {
       }, (location) => {
         // this gets called anytime there is a new location
         addLocation(location);
-        // console.log(location); // location comes from expo-location library
+        console.log(location); // location comes from expo-location library
       })
     } catch (e) {
       setErr(e);
