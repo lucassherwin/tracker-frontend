@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Accuracy, requestPermissionsAsync, watchPositionAsync } from 'expo-location';
 
-export default (callback) => {
+export default (shouldTrack, callback) => {
   const [err, setErr] = useState(null);
+  const [subscriber, setSubscriber] = useState(null);
 
   const startWatching = async () => {
     try {
@@ -12,21 +13,30 @@ export default (callback) => {
         throw new Error('Location permission not granted');
       }
 
-      await watchPositionAsync({
+      const sub = await watchPositionAsync({
         accuracy: Accuracy.BestForNavigation, // high accuracy
         timeInterval: 1000, // ever second
         distanceInterval: 10 // every 10 meters
       },
       callback
-      )
+      );
+      setSubscriber(sub);
     } catch (e) {
       setErr(e);
     }
   };
 
   useEffect(() => {
-    startWatching();
-  }, []);
+    if(shouldTrack)
+    {
+      startWatching();
+    }
+    else
+    {
+      subscriber.remove();
+      setSubscriber(null);
+    }
+  }, [shouldTrack]); // checks value of shouldTrack to see if it has changed
 
   return [err];
 };

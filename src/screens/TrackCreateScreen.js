@@ -1,16 +1,19 @@
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView,  } from 'react-native-safe-area-context';
+import { withNavigationFocus } from 'react-navigation';
 import Map from '../components/Map';
 import '../_mockLocation'; // this causes the map not to load correctly not sure why
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
 
-const TrackCreateScreen = () => {
+const TrackCreateScreen = ({ isFocused }) => {
   const { addLocation } = useContext(LocationContext);
 
-  const [err] = useLocation(addLocation);
+  const [err] = useLocation(isFocused, addLocation);
+
+  console.log(isFocused);
 
   return (
     <SafeAreaView forceInset={{ top: 'always' }}>
@@ -23,5 +26,5 @@ const TrackCreateScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);
 
