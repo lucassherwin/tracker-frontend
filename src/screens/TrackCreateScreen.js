@@ -7,6 +7,7 @@ import Map from '../components/Map';
 import '../_mockLocation'; // this causes the map not to load correctly not sure why
 import { Context as LocationContext } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
+import TrackForm from '../components/TrackForm';
 
 const TrackCreateScreen = ({ isFocused }) => {
   const { addLocation } = useContext(LocationContext);
@@ -18,6 +19,7 @@ const TrackCreateScreen = ({ isFocused }) => {
       <Text h2>Create a track</Text>
       <Map />
       {err ? <Text>Please enable location services</Text> : null}
+      <TrackForm />
     </SafeAreaView>
   );
 };
