@@ -7,7 +7,7 @@ export default () => {
   const { state: { locations, name } } = useContext(LocationContext);
 
   const saveTrack = () => {
-    createTrack(name, location);
+    createTrack(name, locations);
   };
   return [saveTrack]; 
 };
