@@ -3,40 +3,50 @@ import { Accuracy, requestPermissionsAsync, watchPositionAsync } from 'expo-loca
 
 export default (shouldTrack, callback) => {
   const [err, setErr] = useState(null);
-  const [subscriber, setSubscriber] = useState(null);
-
-  const startWatching = async () => {
-    try {
-      const { granted } = await requestPermissionsAsync();
-      if (!granted) 
-      {
-        throw new Error('Location permission not granted');
-      }
-
-      const sub = await watchPositionAsync({
-        accuracy: Accuracy.BestForNavigation, // high accuracy
-        timeInterval: 1000, // ever second
-        distanceInterval: 10 // every 10 meters
-      },
-      callback
-      );
-      setSubscriber(sub);
-    } catch (e) {
-      setErr(e);
-    }
-  };
 
   useEffect(() => {
+    let subscriber;
+    const startWatching = async () => {
+      try {
+        const { granted } = await requestPermissionsAsync();
+        if (!granted) 
+        {
+          throw new Error('Location permission not granted');
+        }
+  
+        subscriber = await watchPositionAsync({
+          accuracy: Accuracy.BestForNavigation, // high accuracy
+          timeInterval: 1000, // ever second
+          distanceInterval: 10 // every 10 meters
+        },
+        callback
+        );
+      } catch (e) {
+        setErr(e);
+      }
+    };
+
     if(shouldTrack)
     {
       startWatching();
     }
     else
     {
-      subscriber.remove();
-      setSubscriber(null);
+      if(subscriber)
+      {
+        subscriber.remove();
+      }
+      subscriber = null;
     }
-  }, [shouldTrack]); // checks value of shouldTrack to see if it has changed
+
+    // clean up function
+    return () => {
+      if(subscriber)
+      {
+        subscriber.remove();
+      }
+    };
+  }, [shouldTrack, callback]); // checks value of shouldTrack to see if it has changed
 
   return [err];
 };
